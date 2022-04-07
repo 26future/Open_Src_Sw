@@ -29,7 +29,7 @@ import org.xml.sax.SAXException;
 
 
 public class searcher {
-	public void search(String path, String query) throws SAXException, IOException, ParserConfigurationException, TransformerException, ClassNotFoundException{
+	public void calcSim(String path, String query) throws SAXException, IOException, ParserConfigurationException, TransformerException, ClassNotFoundException{
 		// hashmap 불러오기
 		File file = new File(path);
 		FileInputStream fis = new FileInputStream(file);

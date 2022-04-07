@@ -187,7 +187,7 @@ public class kuir{
 		else if (command.equals("-s")){
 			
 			searcher searcher = new searcher();
-			searcher.search(path, query);
+			searcher.calcSim(path, query);
 		}}
 			
 		}
