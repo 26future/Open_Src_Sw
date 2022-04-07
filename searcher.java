@@ -81,20 +81,51 @@ public class searcher {
 	
 		}
 		
-		// 쿼리와 문서 유사도 계산
+		// 쿼리와 문서 유사도 계산 (inner product)
+//		ArrayList<Double> calcSim = new ArrayList();
+//		for (int i = 0; i < num_documents; i++) {
+//			ArrayList<Double> temp = new ArrayList();
+//			double temp_sim = 0.0;
+//			for (int j = 0; j < cnt_kwrd.size(); j++) {
+//				double doc_weight = totalValues.get(j).get(i);
+//				int query_weight = (int) cnt_kwrd.get(j);
+//				double similarity = doc_weight * query_weight;
+//				temp_sim += similarity;
+//			}
+//			calcSim.add(temp_sim);
+//		}
+		
+		// cosine similarity
 		ArrayList<Double> calcSim = new ArrayList();
 		for (int i = 0; i < num_documents; i++) {
-			ArrayList<Double> temp = new ArrayList();
 			double temp_sim = 0.0;
+			double temp_doc_weight = 0.0;
+			double temp_query_weight = 0.0;
+			double calc_result = 0.0;
 			for (int j = 0; j < cnt_kwrd.size(); j++) {
 				double doc_weight = totalValues.get(j).get(i);
 				int query_weight = (int) cnt_kwrd.get(j);
 				double similarity = doc_weight * query_weight;
 				temp_sim += similarity;
+				
+				double doc_weight_norm = Math.pow(doc_weight, 2);
+				double query_weight_norm = Math.pow(query_weight, 2);
+				
+				temp_doc_weight += doc_weight_norm;
+				temp_query_weight += query_weight_norm;
+				
 			}
-			calcSim.add(temp_sim);
-		}
-		
+			
+			calc_result = temp_sim / (Math.sqrt(temp_doc_weight) * Math.sqrt(temp_query_weight));
+			if (Double.isNaN(calc_result)){
+				calcSim.add(0.0);
+			}
+			else {
+				calcSim.add(calc_result);
+			}
+		}		
+//		System.out.println(calcSim);
+			
 		
 		// 해시맵 형태로 변환 (key: doc index, value: 쿼리와 document의 유사도)
 		HashMap<Integer, Double> calcSim_hashmap = new HashMap<Integer, Double>();
@@ -106,7 +137,7 @@ public class searcher {
 		HashMap<Integer, Double> map = calcSim_hashmap;
 		List<Entry<Integer, Double>> sorted_calcSim = new ArrayList<>(map.entrySet());
 		sorted_calcSim.sort(Collections.reverseOrder(Map.Entry.comparingByValue()));
-//		sorted_calcSim.forEach(System.out::println);
+		sorted_calcSim.forEach(System.out::println);
 		
 	
 		// 검색 결과 출력
@@ -126,8 +157,12 @@ public class searcher {
 			for (int j = 0; j < num_results; j ++)
 				System.out.println(results.get(j));
 		}
-	}
+	
 }
+	private double Math(double doc_weight, int i) {
+		// TODO Auto-generated method stub
+		return 0;
+	}}
 	
 
 				
