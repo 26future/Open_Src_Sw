@@ -29,6 +29,11 @@ import org.xml.sax.SAXException;
 
 
 public class searcher {
+	public static double InnerProduct(double doc_weight, int query_weight) {
+		double inner_product = doc_weight * query_weight;
+		return inner_product;
+	}
+	
 	public void calcSim(String path, String query) throws SAXException, IOException, ParserConfigurationException, TransformerException, ClassNotFoundException{
 		// hashmap 불러오기
 		File file = new File(path);
@@ -105,7 +110,10 @@ public class searcher {
 			for (int j = 0; j < cnt_kwrd.size(); j++) {
 				double doc_weight = totalValues.get(j).get(i);
 				int query_weight = (int) cnt_kwrd.get(j);
-				double similarity = doc_weight * query_weight;
+//				double similarity = doc_weight * query_weight;
+				
+				double similarity = InnerProduct(doc_weight, query_weight);
+				
 				temp_sim += similarity;
 				
 				double doc_weight_norm = Math.pow(doc_weight, 2);
@@ -137,7 +145,7 @@ public class searcher {
 		HashMap<Integer, Double> map = calcSim_hashmap;
 		List<Entry<Integer, Double>> sorted_calcSim = new ArrayList<>(map.entrySet());
 		sorted_calcSim.sort(Collections.reverseOrder(Map.Entry.comparingByValue()));
-		sorted_calcSim.forEach(System.out::println);
+//		sorted_calcSim.forEach(System.out::println);
 		
 	
 		// 검색 결과 출력
