@@ -63,10 +63,19 @@ public class kuir{
 			indexer.getIndex(path);
 				}
 				
-		else if (command.equals("-s")){
+		if (command.equals("-s")){
 			searcher searcher = new searcher();
 			searcher.calcSim(path, query);
-		}}
+		}
+		
+		else if (command.equals("-m")) {
+			MidTerm midterm = new MidTerm();
+			midterm.midterm(path, query);
+			
+			
+		}
+		
+	}
 			
 	}
 		
